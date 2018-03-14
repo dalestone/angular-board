@@ -9,6 +9,10 @@ import { IBoardPane } from '../interfaces/IBoardPane';
 export class BoardPaneComponent {
     @Input() pane: IBoardPane;
 
+    constructor() {
+        
+    }
+
     addWidget() {
 
     }

@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Observable, } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/from';
 
 import { IBoardState } from './interfaces/IBoardState';
 import { IBoardPane } from './interfaces/IBoardPane';
 import { IBoardConfig } from './interfaces/IBoardConfig';
+import { IBoardAction } from './interfaces/IBoardAction';
 
 @Injectable()
 export class BoardService {
-    isObservable = obs => obs instanceof Observable;
-    action$ = new Subject();
-
-    initState: IBoardState = {
+    private action$ = new Subject();
+    private initState: IBoardState = {
         panes: [],
         datasources: []
     };
-
-    reducer(state: IBoardState, action) {
-        console.log(state);
-        console.log(action);
-
+    private reducer = (state: IBoardState, action: IBoardAction) => {
         switch (action.type) {
+            case actionType.INIT_BOARD:
+                return {
+                    ...state,
+                    panes: action.payload.panes,
+                    datasources: action.payload.datasources
+                };
             case actionType.ADD_PANE:
                 return {
                     ...state,
@@ -35,35 +37,36 @@ export class BoardService {
         }
     }
 
-    // initBoardState = (initState: IBoardState) => {   
-    //   this.state$ = this.action$
-    //   //.flatMap((action) => this.isObservable(action) ? action)
-    //   .startWith(initState)
-    //   .scan(this.reducer);
-    // }
-
-    state$ = (initState?: IBoardState) =>
-        this.action$
-            .startWith(this.initState)
-            .scan(this.reducer);
+    state$ = this.action$
+        .flatMap((action) => action instanceof Observable ? action : Observable.from([action]))
+        .startWith(this.initState)
+        .scan(this.reducer);
 
 
     actionCreator = (func) => (...args) => {
         const action = func.call(null, ...args);
         this.action$.next(action);
 
-        console.log(action);
+        console.log(action.type);
 
-        if (this.isObservable(action.payload))
+        if (action.payload instanceof Observable) {
             this.action$.next(action.payload);
+        }
         return action;
     };
 
+    initBoard(config: IBoardState) {
+        this.actionCreator((payload) => ({
+            type: actionType.INIT_BOARD,
+            payload
+        }))({ panes: config.panes, datasources: config.datasources });
+    }
+
     addPane(pane: IBoardPane) {
-        this.actionCreator((payload) => {
+        this.actionCreator((payload) => ({
             type: actionType.ADD_PANE,
-                payload
-        })(pane);
+            payload
+        }))(pane);
     }
 
     deletePane(pane: IBoardPane) {
@@ -72,7 +75,7 @@ export class BoardService {
 }
 
 export const actionType = {
-    // INIT_BOARD: 'INIT_BOARD',
+    INIT_BOARD: 'INIT_BOARD',
     ADD_PANE: 'ADD_PANE',
     DELETE_PANE: 'DELETE_PANE',
     ADD_PANE_WIDGET: 'ADD_PANE_WIDGET',

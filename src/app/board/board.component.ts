@@ -3,6 +3,8 @@ import { Component, Input } from '@angular/core';
 import { IBoardConfig } from './interfaces/IBoardConfig';
 import { BoardService } from './board.service';
 import { IBoardState } from './interfaces/IBoardState';
+import { IBoardPane } from './interfaces/IBoardPane';
+import { IBoardDataSource } from './interfaces/IBoardDataSource';
 
 @Component({
     selector: 'board',
@@ -11,20 +13,18 @@ import { IBoardState } from './interfaces/IBoardState';
 })
 export class BoardComponent {
     @Input() config: IBoardConfig;
+    panes: IBoardPane[];
+    datasources: IBoardDataSource[];
 
     constructor(private boardService: BoardService) {
-
+        this.boardService.state$.subscribe((state: IBoardState) => {
+            this.panes = state.panes;
+            this.datasources = state.datasources;
+        })
     }
 
     ngOnInit() {
-        console.log(this.config);
-
-        this.boardService.state$({
-            panes: this.config.panes,
-            datasources: this.config.datasources
-        }).subscribe((state: IBoardState) => {
-            console.log("state changed", state);
-        });
+        this.boardService.initBoard(this.config);
     }
 
     addPane() {
