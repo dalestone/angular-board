@@ -1,0 +1,15 @@
+<div class="board-header">
+    <div>
+        <h1>{{ config?.title }}</h1>
+        <div>
+            <button (click)="addPane()">Add Pane</button>
+        </div>
+    </div>
+    <div>
+        Datasources
+        <button>Add DataSource</button>
+    </div>
+</div>
+<div class="board-container">
+    <board-pane *ngFor="let pane of config.panes"></board-pane>
+</div>

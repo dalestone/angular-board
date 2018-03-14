@@ -1,0 +1,8 @@
+.board-toolbar {
+    display: flex;
+    justify-content:flex-end;
+}
+
+.pane-tools {
+    list-style: none;
+}

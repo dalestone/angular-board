@@ -1,0 +1,9 @@
+.board-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.board-container {
+    display: flex;
+    flex-wrap: wrap;
+}
