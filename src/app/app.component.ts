@@ -12,9 +12,20 @@ export class AppComponent {
     title: 'My Board',
     allowEdit: true,
     panes: [
-      { title: 'pane 1' },
-      { title: 'pane 2' }
+      {
+        title: 'pane 1',
+        widgets: [
+          { title: 'widget1' },
+          { title: 'widget2' }
+        ]
+      },
+      {
+        title: 'pane 2',
+        widgets: [
+          { title: 'widget3' }
+        ]
+      }
     ],
     datasources: []
-  };  
+  };
 }

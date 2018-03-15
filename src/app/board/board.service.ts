@@ -11,6 +11,7 @@ import { IBoardState } from './interfaces/IBoardState';
 import { IBoardPane } from './interfaces/IBoardPane';
 import { IBoardConfig } from './interfaces/IBoardConfig';
 import { IBoardAction } from './interfaces/IBoardAction';
+import { IBoardDataSource } from './interfaces/IBoardDataSource';
 
 @Injectable()
 export class BoardService {
@@ -31,6 +32,10 @@ export class BoardService {
                 return {
                     ...state,
                     panes: [...state.panes, action.payload]
+                };
+            case actionType.DELETE_PANE:
+                return {
+                    ...state
                 };
             default:
                 return state;
@@ -62,6 +67,14 @@ export class BoardService {
         }))({ panes: config.panes, datasources: config.datasources });
     }
 
+    addDataSource(datasource: IBoardDataSource) {
+
+    }
+
+    deleteDataSource(datasource: IBoardDataSource) {
+
+    }
+
     addPane(pane: IBoardPane) {
         this.actionCreator((payload) => ({
             type: actionType.ADD_PANE,
@@ -70,7 +83,10 @@ export class BoardService {
     }
 
     deletePane(pane: IBoardPane) {
-
+        this.actionCreator((payload) => ({
+            type: actionType.DELETE_PANE,
+            payload
+        }))(pane);
     }
 }
 

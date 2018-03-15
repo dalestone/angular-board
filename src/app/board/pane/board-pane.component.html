@@ -1,12 +1,13 @@
-<header>
-	<h1>{{pane?.title}}</h1>
-	<ul class="board-toolbar pane-tools">
-		<li><button>Add</button></li>
-		<li><button>Edit</button></li>
-		<li><button>Delete</button></li>
-	</ul>
-</header>
-<section class="widgets">
-	<div class="sub-section"></div>
-	<div class="sub-section"></div>
-</section>
+<div class="pane">
+	<header>
+		<h1>{{pane?.title}}</h1>
+		<ul class="board-toolbar pane-tools">
+			<li><button (click)="addWidget()">Add</button></li>
+			<li><button (click)="editPane()">Edit</button></li>
+			<li><button (click)="deletePane()">Delete</button></li>
+		</ul>
+	</header>
+	<section class="widgets">
+		<board-widget *ngFor="let widget of pane?.widgets" [widget]="widget"></board-widget>
+	</section>
+</div>
