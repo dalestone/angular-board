@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewContainerRef, ApplicationRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -40,6 +40,10 @@ export class BoardService {
             default:
                 return state;
         }
+    }
+
+    constructor(private applicationRef:ApplicationRef) {
+        
     }
 
     state$ = this.action$
@@ -87,6 +91,18 @@ export class BoardService {
             type: actionType.DELETE_PANE,
             payload
         }))(pane);
+    }
+
+    getRootViewContainerRef(): ViewContainerRef {
+        const appInstance = this.applicationRef.components[0].instance;
+
+        if (!appInstance.viewContainerRef) {
+            const appName = this.applicationRef.componentTypes[0].name;
+
+            throw new Error(`Missing 'viewContainerRef' declaration in ${appName} constructor`);
+        }
+
+        return appInstance.viewContainerRef;
     }
 }
 

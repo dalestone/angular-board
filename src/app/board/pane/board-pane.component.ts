@@ -1,22 +1,25 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewContainerRef, Inject, ComponentFactoryResolver, ApplicationRef, Injector, ElementRef } from '@angular/core';
 import { IBoardPane } from '../interfaces/IBoardPane';
 
 import { BoardService } from '../board.service';
+import { BoardPaneService } from './board-pane.service';
 
 @Component({
     selector: 'board-pane',
     templateUrl: 'board-pane.component.html',
-    styleUrls: [ 'board-pane.component.css' ]
+    styleUrls: [ 'board-pane.component.css' ],
+    providers: [ BoardPaneService ]
 })
 export class BoardPaneComponent {
     @Input() pane: IBoardPane;
-
-    constructor(private boardService: BoardService) {
-        
+    
+    constructor(private boardService: BoardService,
+        private boardPaneService: BoardPaneService) {
+                                
     }
 
     addWidget() {
-        console.log('add widget');
+        this.boardPaneService.addWidget(this.boardService.getRootViewContainerRef());                                
     }
 
     editPane() {

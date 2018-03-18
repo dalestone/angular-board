@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { IBoardConfig } from './board/interfaces/IBoardConfig';
 
 @Component({
@@ -7,6 +7,11 @@ import { IBoardConfig } from './board/interfaces/IBoardConfig';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  constructor(private viewContainerRef: ViewContainerRef) {
+
+  }
+
   config: IBoardConfig = {
     version: 1,
     title: 'My Board',
