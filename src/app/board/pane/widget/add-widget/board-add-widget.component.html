@@ -1,20 +1,23 @@
-<div class="add-widget-container">
-    <div>
-        <div style="display:flex; justify-content:space-between; align-items:center">
-            <h1>Add Widget</h1>
-            <button (click)="destroy()">Destroy</button>
-        </div>
-        <div>
-            <h2>Type</h2>
-            <select>
-                <option>Kendo Radial Gauge</option>
+<div class="add-widget-modal">
+    <header>
+        <h2 class="title">Add Widget</h2>
+    </header>
+    <section>
+        <div style="display:flex; justify-content:space-between">
+            <label style="flex: 1">Type</label>
+            <select [(ngModel)]="widget.type" style="flex: 2">
+                <option [value]="'undefined'">Select a type...</option>
+                <option *ngFor="let type of types" [value]="type.value">{{ type.label }}</option>
             </select>
-
-
-
-            <div>
-                <button>Save</button>
-            </div>
         </div>
-    </div>
+        <div *ngIf="widget.type !== 'undefined'">
+            <pre>
+                {{ getTypeProperties() | json }}
+            </pre>
+        </div>
+    </section>
+    <footer>
+        <button *ngIf="widget.type !== 'undefined'">Save</button>
+        <button *ngIf="widget.type === 'undefined'" (click)="destroy()">Destroy</button>
+    </footer>
 </div>

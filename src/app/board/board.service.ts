@@ -17,7 +17,7 @@ import { IBoardDataSource } from './interfaces/IBoardDataSource';
 export class BoardService {
     private action$ = new Subject();
     private initState: IBoardState = {
-        panes: [],
+        panes: [],        
         datasources: []
     };
     private reducer = (state: IBoardState, action: IBoardAction) => {
@@ -33,10 +33,14 @@ export class BoardService {
                     ...state,
                     panes: [...state.panes, action.payload]
                 };
-            case actionType.DELETE_PANE:
+            case actionType.DELETE_PANE: {
+                const newState = { ...state };
+                newState.panes.splice(action.payload, 1);
+                
                 return {
-                    ...state
+                    ...newState,
                 };
+            };
             default:
                 return state;
         }
@@ -86,11 +90,11 @@ export class BoardService {
         }))(pane);
     }
 
-    deletePane(pane: IBoardPane) {
+    deletePane(index: number) {
         this.actionCreator((payload) => ({
             type: actionType.DELETE_PANE,
             payload
-        }))(pane);
+        }))(index);
     }
 
     getRootViewContainerRef(): ViewContainerRef {

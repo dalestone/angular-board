@@ -20,7 +20,7 @@ export class BoardComponent {
         this.boardService.state$.subscribe((state: IBoardState) => {
             this.panes = state.panes;
             this.datasources = state.datasources;
-        })
+        });
     }
 
     ngOnInit() {

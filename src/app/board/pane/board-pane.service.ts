@@ -1,5 +1,4 @@
 import { ComponentFactoryResolver, Injectable, ViewContainerRef, ComponentRef } from '@angular/core';
-
 import { BoardAddWidgetComponent } from './widget/add-widget/board-add-widget.component';
 
 @Injectable()

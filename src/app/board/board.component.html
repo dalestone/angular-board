@@ -12,5 +12,5 @@
     </div>
 </div>
 <div class="board-container">
-    <board-pane *ngFor="let pane of panes" [pane]="pane"></board-pane>
+    <board-pane *ngFor="let pane of panes; let i = index" [index]="i" [pane]="pane"></board-pane>
 </div>

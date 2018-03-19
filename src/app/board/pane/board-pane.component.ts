@@ -1,4 +1,4 @@
-import { Component, Input, ViewContainerRef, Inject, ComponentFactoryResolver, ApplicationRef, Injector, ElementRef } from '@angular/core';
+import { Component, Input, ViewContainerRef, Inject, ComponentRef, ComponentFactoryResolver, ApplicationRef, Injector, ElementRef, Output, EventEmitter } from '@angular/core';
 import { IBoardPane } from '../interfaces/IBoardPane';
 
 import { BoardService } from '../board.service';
@@ -11,9 +11,11 @@ import { BoardPaneService } from './board-pane.service';
     providers: [ BoardPaneService ]
 })
 export class BoardPaneComponent {
+    @Input() index: number;
     @Input() pane: IBoardPane;
-    
-    constructor(private boardService: BoardService,
+
+    constructor(
+        private boardService: BoardService,
         private boardPaneService: BoardPaneService) {
                                 
     }
@@ -27,6 +29,6 @@ export class BoardPaneComponent {
     }   
 
     deletePane() {
-        this.boardService.deletePane(this.pane);
+        this.boardService.deletePane(this.index);
     }
 }

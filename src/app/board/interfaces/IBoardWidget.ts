@@ -1,26 +1,21 @@
 export interface IBoardWidget {
     title?: string;
+    type?: string;
+    settings?: any;
 }
 
 export enum BoardWidgetType {
-    Gauge,
-    Scatter
+    RadialGauge,
+    LinearGauge
 }
 
-export interface IGaugeWidgetConfig {
-    type: BoardWidgetType;
-    title?: string;
-    value: number;
-    units: any;
-    minimum: number;
-    maximum: number;
+export interface IRadialGaugeConfig {
+    pointer: number;
+    max: number;
 }
 
-export interface IScatterWidgetConfig {
-    type: BoardWidgetType;
-    title?: string;
-    x: number[];
-    y: number[]
+export interface ILinearGaugeConfig {
+ 
 }
 
 //TODO(dale): add additional widget configurations
